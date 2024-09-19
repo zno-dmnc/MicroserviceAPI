@@ -27,7 +27,7 @@ Requirement for IT 3103 - SYSTEMS INTEGRATION AND ARCHITECTURE
 git clone https://github.com/zno-dmnc/MicroserviceAPI.git
 ```
 ```
-cd MicroserviceAPI
+cd MicroserviceAPI\src
 ```
 
 **2.** Install Dependencies  
