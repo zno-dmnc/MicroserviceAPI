@@ -11,6 +11,15 @@ app.get('/products', (req, res) => {
     return res.status(200).json({data: products});
 });   
 
+app.get('/products/:id', (req, res) => {
+    const {id} = req.params;
+    const product = products.find((product) => product.id === Number(id));
+    if(!product) {
+        return res.status(404).json({message: 'Product not found'});
+    }
+    return res.status(200).json({data: product});
+});
+
 app.post('/add-product', (req, res) => {
     const name = req.body.name;
     const quantity = parseInt(req.body.quantity);
@@ -50,6 +59,17 @@ app.put('/update-product/:id', (req, res) => {
         product.quantity = quantity;
     }
     return res.status(200).json({message: 'Product updated successfully', data: product});
+});
+
+app.put('/update-quantity/:id', (req, res) => {
+    const {id} = req.params;
+    const quantity = parseInt(req.body.quantity);
+    const product = products.find((product) => product.id === Number(id));
+    if(!product) {
+        return res.status(404).json({message: 'Product not found'});
+    }
+    product.quantity -= quantity;
+    return res.status(200).json({message: 'Product quantity updated successfully', data: product});
 });
 
 app.delete('/delete-product/:id', (req, res) => {
