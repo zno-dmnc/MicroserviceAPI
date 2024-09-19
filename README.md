@@ -39,13 +39,7 @@ npm install axios
 ```
 **3.** Running the APIs  
 ```
-node src\product.js
-```
-```
-node src\customer.js
-```
-```
-node src\orders.js
+node <filename>
 ```
 
 **4.** Testing with Postman  
