@@ -55,5 +55,5 @@ node src\orders.js
    &emsp; - Product Service: 3001  
    &emsp; - Customer Service: 3002  
    &emsp; - Orders Service: 3003
- * Copy the __*product.json*__ file and head to the Postman body section.  Click __*raw*__ and select __*JSON*__ as the file type, then paste the copied content inside.
+ * Copy the __*product.json*__ file from __*JSON FILES*__ folder and head to the Postman body section.  Click __*raw*__ and select __*JSON*__ as the file type, then paste the copied content inside.
  * Send the Request
