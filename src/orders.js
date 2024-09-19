@@ -38,6 +38,21 @@ async function removeProductQuantity(productId, quantity){
     }
 }
 
+async function addProductQuantity(productId, quantity){
+    try{
+        const res = await axios.get(`http://localhost:3001/products/${productId}`);
+        const product = res.data.data;
+        const newQuantity = product.quantity + quantity;
+        const response = await axios.put(`http://localhost:3001/update-product/${productId}`, {
+            quantity: newQuantity
+        });
+        return response.data.data;
+    }
+    catch(error){
+        throw new Error('Failed to update product quantity.');
+    }
+}
+
 app.get('/orders', (req, res) => {
     if(orders.length === 0){
         return res.status(404).json({message: 'No orders found.'});
@@ -69,7 +84,7 @@ app.post('/add-order', async (req, res) => {
         const order = {
             id: orders.length + 1,
             customer,
-            updatedProduct,
+            product: updatedProduct,
             quantity,
         };
         orders.push(order);
@@ -92,10 +107,36 @@ app.put('/update-order/:id', async (req, res) => {
         order.customer = customer;
     }
     if(productId){
+        
         const product = await getProductById(productId);
-        order.product = product;
+        if(product.quantity < quantity){
+            return res.status(400).json({message: 'Product out of stock.'});
+        }
+        addProductQuantity(order.product.id, order.quantity);
+        if(!quantity){
+            const updatedProduct = await removeProductQuantity(productId, order.quantity);
+            order.product = updatedProduct;
+        }else{
+            const updatedProduct = await removeProductQuantity(productId, quantity);
+            order.product = updatedProduct;
+        }
     }
     if(quantity){
+        const product = await getProductById(order.product.id);
+        if(product.quantity < quantity){
+            return res.status(400).json({message: 'Product out of stock.'});
+        }
+        const difference = order.quantity - quantity;
+        if(difference > 0){
+            const newP = await addProductQuantity(order.product.id, difference);
+            console.log(newP)
+            order.product = newP
+        }
+        else{
+            const newP = await removeProductQuantity(order.product.id, Math.abs(difference));
+            console.log(newP)
+            order.product = newP
+        }
         order.quantity = quantity;
     }
     return res.status(200).json({message: 'Order updated successfully.', data: order});
