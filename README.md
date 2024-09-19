@@ -32,9 +32,11 @@ cd MicroserviceAPI
 
 **2.** Install Dependencies  
 ```
-npm install
+npm install express
 ```
-
+```
+npm install axios
+```
 **3.** Running the APIs  
 ```
 node src\product.js
@@ -48,5 +50,10 @@ node src\orders.js
 
 **4.** Testing with Postman  
  * Open Postman.
- * Enter http://localhost:3000/endpoint (replace /endpoint with your API endpoint and make sure the port number aligns with the microservice).
+ * Enter http://localhost:3000/endpoint (replace /endpoint with your API endpoint and make sure the port number aligns with the microservice).  
+   &emsp;**PORT NUMBERS:**  
+   &emsp; - Product Service: 3001  
+   &emsp; - Customer Service: 3002  
+   &emsp; - Orders Service: 3003
+ * Copy the __*product.json*__ file and head to the Postman body section.  Click __*raw*__ and select __*JSON*__ as the file type, then paste the copied content inside.
  * Send the Request
